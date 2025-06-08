@@ -6,7 +6,9 @@ from sklearn.model_selection import train_test_split
 
 TEXT2ID = {"негативная": 0, "позитивная": 1, "мусор": 2, "нейтральная": 3}
 
+logging.basicConfig(level=logging.INFO)
 logging.info("Читаю файл")
+
 df = pd.read_csv("data/processing/data_read.csv", index_col=0)
 
 logging.info("Делаю обработку")

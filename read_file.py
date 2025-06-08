@@ -4,6 +4,7 @@ from pathlib import Path
 import pandas as pd
 from tqdm import tqdm
 
+logging.basicConfig(level=logging.INFO)
 logging.info("Start reading files")
 
 main_path = Path("./data/raw/data_raw.xlsx")
