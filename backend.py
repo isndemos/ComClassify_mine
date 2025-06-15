@@ -13,8 +13,8 @@ logging.basicConfig(level=logging.INFO)
 logging.info("Starting FastAPI application")
 
 # Константы для путей к моделям и меткам классов
-LR_MODEL_PATH = "models/lr_adv.pkl"
-TFIDF_PATH = "models/tf_idf_adv.pkl"
+LR_MODEL_PATH = "models/lr_adv.pkl"  # получаем значение (от 0 до 3)
+TFIDF_PATH = "models/tf_idf_adv.pkl"  # получаем фичи (вектор)
 ID2TEXT = {0: "негативная", 1: "позитивная", 2: "мусор", 3: "нейтральная"}
 
 
@@ -26,6 +26,7 @@ app = FastAPI()
 @app.on_event("startup")
 def on_startup():
     init_db()
+
 
 # Загрузка моделей
 def load_models():
@@ -39,6 +40,7 @@ def load_models():
 
 
 lr_model, tfidf = load_models()
+
 
 class TextRequest(BaseModel):
     text: str
@@ -76,11 +78,19 @@ async def root():
         "message": "Welcome to the Emotion Classification API. Use /predict/ to classify text."
     }
 
+
 @app.get("/hello")
 async def root():
     return {
         "message": "Hello, world! This is a simple FastAPI application for text classification."
     }
+
+
+# еще один тест
+@app.get("/v1/hello")
+async def root():
+    return {"message": "Hello from v1, world!."}
+
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)
