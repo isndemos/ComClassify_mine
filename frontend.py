@@ -1,4 +1,5 @@
 import logging
+import os
 
 import requests
 import streamlit as st
@@ -6,6 +7,10 @@ import streamlit as st
 # Настройка логирования
 logging.basicConfig(level=logging.INFO)
 logging.info("Запуск Streamlit приложения")
+
+# Получаем URL бэкенда из переменной окружения или используем значение по умолчанию
+BACKEND_URL = os.environ.get("BACKEND_URL", "http://localhost:8000")
+logging.info(f"Используем URL бэкенда: {BACKEND_URL}")
 
 st.title("Классификация текста")
 
@@ -16,7 +21,7 @@ if st.button("Классифицировать"):
         logging.info(f"Получен текст для классификации: {text}")
         # Отправка POST запроса к FastAPI серверу
         logging.info("Отправка запроса на сервер...")
-        response = requests.post("http://localhost:8000/predict/", json={"text": text})
+        response = requests.post(f"{BACKEND_URL}/predict/", json={"text": text})
         if response.ok:
             logging.info("Получен ответ от сервера")
             result = response.json()
