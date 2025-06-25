@@ -1,10 +1,15 @@
+import os
 from datetime import datetime
 
 from sqlalchemy import Column, DateTime, Integer, String, create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
-engine = create_engine("postgresql://user:password@localhost:5432/comclassify")
+# Используем переменную окружения DATABASE_URL или дефолтное значение
+DATABASE_URL = os.environ.get(
+    "DATABASE_URL", "postgresql://user:password@localhost:5432/comclassify"
+)
+engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
 
